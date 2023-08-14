@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import React from "react";
 import { UserContext } from "../contexts/UserContext";
+import Header from "../components/Header";
 
 axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}`;
 
@@ -11,20 +12,22 @@ export default function SignInPage(){
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
-   // const { setUser } = useContext(UserContext);
-
+    const { setUser } = useContext(UserContext);
+    const {isLogged, setIsLogged} = useContext(UserContext);
     function signIn(e) {
       e.preventDefault();
-      const promise = axios.post("/signIn", {
+      const promise = axios.post("/signin", {
         email: email,
         password: pass,
       });
   
       promise.then((res) => {
-        const { userId, name, token } = res.data;
-        setUser({ userId, name, token });
-        localStorage.setItem("user", JSON.stringify({ userId, name, token }));
-        navigate("/")
+        const { name, token } = res.data;
+        setUser({name, token });
+        
+        localStorage.setItem("user", JSON.stringify({ name, token }));
+        setIsLogged(true);
+        navigate("/products")
       });
   
       promise.catch((err) => {
@@ -34,7 +37,7 @@ export default function SignInPage(){
 
     return(
         <>
-      
+      <Header/>
       <SignInContainer>
         <form onSubmit={signIn}>
           <h1>MeCansei!</h1>

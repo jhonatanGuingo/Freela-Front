@@ -1,43 +1,39 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import Header from "../components/Header";
+import { UserContext } from "../contexts/UserContext";
 axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}`;
 
-export default function SignUpPage(){
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [pass, setPass] = useState("");
-    const [confirmPass, setConfirmPass] = useState("");
+export default function AddProduct(){
+    const {user} = useContext(UserContext)
+    const [nameProd, setNameProd] = useState("");
+    const [description, setDescription] = useState("");
+    const [category, setCategory] = useState("");
+    const [img, setImg] = useState("");
     const [load, setLoad] = useState(false);
-    const [cpf, setCpf] = useState("");
-    const [number, setNumber] = useState("");
+    const [price, setPrice] = useState("");
     const navigate = useNavigate();
- 
-    function signUp(e){
+    const {token} = user;
+    const headers = {
+        headers: {Authorization: `Bearer ${token}`}
+      }
+    function AddProd(e){
         e.preventDefault();
         setLoad(true);
 
-        if (pass != confirmPass){
-            alert("As senhas devem ser iguais");
-            setLoad(false);
-            return
-        }
-
-        const promise = axios.post("/signup", {
-            name: name,
-            email: email,
-            number: number,
-            cpf: cpf,
-            password: pass,
-            confirmPassword: confirmPass
-            
-        });
+        const promise = axios.post("/products", {
+            nameProd: nameProd,
+            description: description,
+            category: category,
+            img: img,
+            price: price
+        }, headers);
 
         promise.then((res) => {
-            alert("Conta criada com sucesso");
+            alert("Produto criado");
             setLoad(false);
         });
 
@@ -51,58 +47,49 @@ export default function SignUpPage(){
         <>
         <Header/>
          <SignUpContainer>
-        <form onSubmit={signUp}>
-          <h1>Registre-se</h1>
+        <form onSubmit={AddProd}>
+          <h1>Registrar Produto</h1>
           <input
             disabled={load}
             placeholder="Nome"
             required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={nameProd}
+            onChange={(e) => setNameProd(e.target.value)}
             type="text"
           />
           <input
             disabled={load}
-            placeholder="E-mail"
-            required
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Descrição"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <input
             disabled={load}
-            placeholder="CPF"
+            placeholder="categoria"
+            required
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+          <input
+            disabled={load}
+            placeholder="img"
+            required
+            type="text"
+            value={img}
+            onChange={(e) => setImg(e.target.value)}
+          />
+          <input
+            disabled={load}
+            placeholder="price"
             required
             type="number"
-            value={cpf}
-            onChange={(e) => setCpf(e.target.value)}
-          />
-          <input
-            disabled={load}
-            placeholder="Número"
-            required
-            type="number"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-          />
-          <input
-            disabled={load}
-            placeholder="Senha"
-            required
-            type="password"
-            value={pass}
-            onChange={(e) => setPass(e.target.value)}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             autocomplete="new-password"
           />
-          <input
-            disabled={load}
-            placeholder="Confirme a senha"
-            required
-            type="password"
-            value={confirmPass}
-            onChange={(e) => setConfirmPass(e.target.value)}
-            autocomplete="new-password"
-          />
+          
           <button disabled={load} data-test="sign-up-submit" type="submit">
             {load ? (
               <ThreeDots
@@ -115,12 +102,12 @@ export default function SignUpPage(){
                 wrapperClass
               />
             ) : (
-              "Cadastrar"
+              "Cadastrar Produto"
             )}
           </button>
         </form>
 
-        <Link to={`/`}>Já tem uma conta? Entre agora!</Link>
+        <Link to={`/myproducts`}>Voltar para meus produtos</Link>
       </SignUpContainer>
       
     </>
