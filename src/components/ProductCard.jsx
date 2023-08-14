@@ -8,7 +8,7 @@ axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}`;
 export default function ProductCard({products}){
     const {productItem, setProductItem, selectedProduct, setSelectedProduct} = useContext(ProductContext)
     const navigate = useNavigate();
-    
+
     
     const handleViewProduct = (product) => {
         const promise = axios.get(`/products/info/${product.id}`)
@@ -24,7 +24,7 @@ export default function ProductCard({products}){
     }
     return(<>{
         products.map((product, id) => (
-        <ProductCardSC key={id}>
+        <ProductCardSC key={id} vendido = {product.sold}>
             <img src={product.img} 
             alt="product"/>
             <div>
@@ -45,7 +45,7 @@ const ProductCardSC = styled.div`
     padding-top: 20px;
     margin-bottom: 30px;
     width: 300px;
-    display: flex;
+    display: ${(props) => (props.vendido ? "none" : "flex")};
     flex-direction: column;
     align-items: center;
     &:hover{
