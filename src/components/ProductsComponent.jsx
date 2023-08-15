@@ -4,6 +4,7 @@ import ProductCard from "./ProductCard";
 //import img from "../../public/header.jpg";
 
 export default function Products({products}) {
+  
     return(
     <>
         <ProductsContainer>
