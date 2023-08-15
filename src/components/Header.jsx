@@ -20,14 +20,14 @@ export default function Header(){
     
       function Logout() {
         localStorage.removeItem("user");
-        setUser({})
+        setUser("")
         setIsLogged(false)
         navigate("/");
       }
 
       return(
         <>
-            <HeaderSC logged={isLogged}>
+            <HeaderSC logged={user}>
                 <h1>MeCansei!</h1>
                 <span>
                     <h3 onClick={() => navigate('/products')}>Em Alta</h3>
@@ -41,7 +41,7 @@ export default function Header(){
             </li>
             <b onClick={login}>ENTRAR/CADASTRO</b>
           </ul>
-          <h3>{user.name}</h3>
+          
           <p onClick={Logout}><BiExit /></p>
                 </div>
             </HeaderSC>

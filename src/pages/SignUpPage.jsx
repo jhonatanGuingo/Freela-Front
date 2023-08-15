@@ -39,6 +39,7 @@ export default function SignUpPage(){
         promise.then((res) => {
             alert("Conta criada com sucesso");
             setLoad(false);
+            navigate('/')
         });
 
         promise.catch((err) => {

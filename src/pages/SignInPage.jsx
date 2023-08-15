@@ -22,10 +22,10 @@ export default function SignInPage(){
       });
   
       promise.then((res) => {
-        const { name, token } = res.data;
-        setUser({name, token });
-        
-        localStorage.setItem("user", JSON.stringify({ name, token }));
+        const { token } = res.data;
+        console.log(token)
+        setUser(token);
+        localStorage.setItem("token", token);
         setIsLogged(true);
         navigate("/products")
       });

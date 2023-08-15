@@ -4,8 +4,8 @@ import React from "react"
 export const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-  const lsUser = JSON.parse(localStorage.getItem("user"));
-  const [user, setUser] = useState(lsUser !== null ? lsUser : {});
+  const lsUser = localStorage.getItem("token");
+  const [user, setUser] = useState(lsUser);
   const [isLogged, setIsLogged] = useState(false);
   const navigate = useNavigate();
 

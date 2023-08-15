@@ -14,10 +14,10 @@ export default function MyProductsPage(){
     const [loading, setLoading] = useState(true)
     const [myProducts, setMyProducts] = useState();
     const navigate = useNavigate();
-    const {token} = user;
-    console.log(token)
+    
+    console.log(user)
     const headers = {
-        headers: {Authorization: `Bearer ${token}`}
+        headers: {Authorization: `Bearer ${user}`}
       }
       
    useEffect(() => {
@@ -31,6 +31,7 @@ export default function MyProductsPage(){
 
         alert(err.response.data)
       })
+      
   
    }, []);
 

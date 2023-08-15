@@ -16,9 +16,9 @@ export default function AddProduct(){
     const [load, setLoad] = useState(false);
     const [price, setPrice] = useState("");
     const navigate = useNavigate();
-    const {token} = user;
+    
     const headers = {
-        headers: {Authorization: `Bearer ${token}`}
+        headers: {Authorization: `Bearer ${user}`}
       }
     function AddProd(e){
         e.preventDefault();
@@ -34,7 +34,9 @@ export default function AddProduct(){
 
         promise.then((res) => {
             alert("Produto criado");
+
             setLoad(false);
+            navigate('/myproducts')
         });
 
         promise.catch((err) => {
